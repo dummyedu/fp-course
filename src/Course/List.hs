@@ -79,6 +79,13 @@ headOr ::
 headOr _ ( x:. _) = x
 headOr d Nil = d
 
+tail ::
+  List a
+  -> List a
+
+tail Nil = Nil
+tail (_:.xs) = xs
+
 -- | The product of the elements of a list.
 --
 -- >>> product Nil
