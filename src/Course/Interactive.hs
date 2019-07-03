@@ -152,7 +152,7 @@ encodeInteractive =
               ' ' -> "%20"
               '\t' -> "%09"
               '\"' -> "%22"
-              c -> c:.Nil
+              _ -> c:.Nil
   in
     putStr "Enter a input to encode: " >-
     getLine >>= \input ->

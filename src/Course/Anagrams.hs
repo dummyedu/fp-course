@@ -32,13 +32,17 @@ anagrams ::
   Chars
   -> FilePath
   -> IO (List Chars)
-anagrams =
-  error "todo: Course.Anagrams#anagrams"
+anagrams w path =
+  let xx input = filter (\i -> length (filter (equalIgnoringCase w) (permutations i)) > 0) (words input)
+  in xx <$> (readFile path)
+    -- pure (filter const (words input))
+  -- error "todo: Course.Anagrams#anagrams"
+
 
 -- Compare two strings for equality, ignoring case
 equalIgnoringCase ::
   Chars
   -> Chars
   -> Bool
-equalIgnoringCase =
-  error "todo: Course.Anagrams#equalIgnoringCase"
+equalIgnoringCase a b = (isPrefixOf (toLower <$> a) (toLower <$> b)) && (length a == length b)
+  -- error "todo: Course.Anagrams#equalIgnoringCase"
