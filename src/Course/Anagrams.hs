@@ -33,11 +33,15 @@ anagrams ::
   -> FilePath
   -> IO (List Chars)
 anagrams w path =
-  let xx input = filter (\i -> length (filter (equalIgnoringCase w) (permutations i)) > 0) (words input)
-  in xx <$> (readFile path)
-    -- pure (filter const (words input))
-  -- error "todo: Course.Anagrams#anagrams"
+  -- let xx input = filter (\i -> length (filter (equalIgnoringCase w) (permutations i)) > 0) (words input)
 
+  let nn = permutations w
+      f i = length (filter (equalIgnoringCase i) nn) > 0
+      xx input = filter (\i -> f i) (words input)
+  in xx <$> (readFile path)
+  -- error "todo: Course.Anagrams#anagrams"
+-- anagrams name =
+--   (<$>) (intersectBy equalIgnoringCase (permutations name) . words) . readFile
 
 -- Compare two strings for equality, ignoring case
 equalIgnoringCase ::

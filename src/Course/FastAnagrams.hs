@@ -14,8 +14,13 @@ fastAnagrams ::
   Chars
   -> FilePath
   -> IO (List Chars)
-fastAnagrams =
-  error "todo: Course.FastAnagrams#fastAnagrams"
+fastAnagrams w path =
+  -- error "todo: Course.FastAnagrams#fastAnagrams"
+  let 
+    s = foldRight (\e acc -> S.insert (toLower <$> e) acc) S.empty (permutations w) 
+    xx input = filter (\aa -> S.member (toLower <$> aa) s) (words input)
+  in xx <$> (readFile path)
+
 
 newtype NoCaseString =
   NoCaseString {
