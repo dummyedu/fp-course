@@ -26,8 +26,8 @@ vooid =
   m a
   -> m b
   -> m b
-(>-) a =
-  (>>=) a . const
+(>-) a b =
+  (>>=) a (const b)
 
 -- | Runs an action until a result of that action satisfies a given predicate.
 untilM ::
@@ -82,8 +82,12 @@ data Op =
 -- /Tip:/ @putStrLn :: String -> IO ()@ -- Prints a string and then a new line to standard output.
 convertInteractive ::
   IO ()
-convertInteractive =
-  error "todo: Course.Interactive#convertInteractive"
+convertInteractive = 
+  putStr "Enter a String to upper-case: " >-
+  getLine >>= \l ->
+  putStrLn (toUpper <$> l) >-
+  putStrLn ""
+  -- error "todo: Course.Interactive#convertInteractive"
 
 -- |
 --
@@ -111,7 +115,13 @@ convertInteractive =
 reverseInteractive ::
   IO ()
 reverseInteractive =
-  error "todo: Course.Interactive#reverseInteractive"
+  -- error "todo: Course.Interactive#reverseInteractive"
+  putStr "Enter a input file name: " >-
+  getLine >>= \input ->
+  putStr "Enter a output file name: " >-
+  getLine >>= \output ->
+  join ((writeFile output) . reverse <$> (readFile input)) >-
+  putStrLn "end"
 
 -- |
 --
@@ -137,7 +147,18 @@ reverseInteractive =
 encodeInteractive ::
   IO ()
 encodeInteractive =
-  error "todo: Course.Interactive#encodeInteractive"
+  -- error "todo: Course.Interactive#encodeInteractive"
+  let cc c = case c of 
+              ' ' -> "%20"
+              '\t' -> "%09"
+              '\"' -> "%22"
+              c -> c:.Nil
+  in
+    putStr "Enter a input to encode: " >-
+    getLine >>= \input ->
+    putStrLn (foldRight (\e acc -> (cc e) ++ acc) Nil input) >-
+    putStrLn "end"
+
 
 interactive ::
   IO ()
